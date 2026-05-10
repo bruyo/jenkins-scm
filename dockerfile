@@ -1,12 +1,17 @@
-# Use the official NGINX base image
+# Use official NGINX image
 FROM nginx:latest
 
-# Set the working directory in the container
-WORKDIR  /usr/share/nginx/html/
+# Set working directory
+WORKDIR /usr/share/nginx/html
 
-# Copy the local HTML file to the NGINX default public directory
-COPY index.html /usr/share/nginx/html/
+# Remove default NGINX static files
+RUN rm -rf ./*
 
-# Expose port 80 to allow external access
+# Copy application files
+COPY index.html .
+
+# Expose web port
 EXPOSE 80
 
+# Start NGINX
+CMD ["nginx", "-g", "daemon off;"]
